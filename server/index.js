@@ -1,21 +1,10 @@
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import "dotenv/config"
-import connectDB from "./config/mongoDB.js";
-
-const PORT = process.env.PORT || 4000
+const express = require("express");
 const app = express();
-connectDB()
+
+require('dotenv').config();
+const port = 4000;
 
 app.use(express.json());
-app.use(cookieParser());
-app.use(cors({ credentials : true}));
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/",(req,res)=>{
-    res.send("API WORKS")
-})
-
-app.listen(PORT , ()=>{
-    console.log("http://localhost:4000")
-})
+app.listen()
