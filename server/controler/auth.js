@@ -44,3 +44,42 @@ exports.signup = async (req, res) => {
     });
   }
 };
+
+
+exports.login = async(req,res)=>{
+  try{
+    let {email , password} = req.body;
+  //miss info
+  if(!email || !password){
+    return res.status(400).json({
+      success:false,
+      message:"Fill all details"
+    })
+  }
+
+  //user not exist;
+  let user = await User.findOne({email});
+  if(!user){
+    return res.status(400).json({
+      success:false,
+      message:"User not exist"
+    })
+  }
+  
+  // verify password and generate JWT token
+  if(await bcrypt.compare(password,user.password)){
+
+  }else{
+    return res.status(400).json({
+      success:false,
+      message:"Wrong Password"
+    })
+  }
+  }catch(error){
+    console.log(error.message);
+    res.status({
+      success:false,
+      message: "Some error occure"
+    })
+  }
+}
