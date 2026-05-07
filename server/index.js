@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const connectDb = require("./config/database")
+var jwt = require('jsonwebtoken');
 
 
 require('dotenv').config();

@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User.js");
+const mongoose = require("mongoose");
+var jwt = require('jsonwebtoken');
 
 //signUp route
-
 exports.signup = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -45,41 +46,63 @@ exports.signup = async (req, res) => {
   }
 };
 
+//login route
+exports.login = async (req, res) => {
+  try {
+    let { email, password } = req.body;
+    //miss info
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Fill all details",
+      });
+    }
 
-exports.login = async(req,res)=>{
-  try{
-    let {email , password} = req.body;
-  //miss info
-  if(!email || !password){
-    return res.status(400).json({
-      success:false,
-      message:"Fill all details"
-    })
-  }
+    //user not exist;
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not exist",
+      });
+    }
 
-  //user not exist;
-  let user = await User.findOne({email});
-  if(!user){
-    return res.status(400).json({
-      success:false,
-      message:"User not exist"
-    })
-  }
-  
-  // verify password and generate JWT token
-  if(await bcrypt.compare(password,user.password)){
+    // verify password and generate JWT token
+    if (await bcrypt.compare(password, user.password)) {
+      let payload = {
+        name: user.name,
+        email: user.email,
+        id: user._id,
+      };
 
-  }else{
-    return res.status(400).json({
-      success:false,
-      message:"Wrong Password"
-    })
-  }
-  }catch(error){
+      let token = jwt.sign(payload, "ThisSecreat", {
+        expiresIn: "2h",
+      });
+
+      user.password = undefined;
+      let option = {
+        httpOnly: true,
+      };
+
+      res.cookie("token", token, option).status(200).json({
+        success: true,
+        message: "JWT send in cookie",
+        user,
+        token
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Wrong Password",
+      });
+    }
+  } catch (error) {
+
     console.log(error.message);
-    res.status({
-      success:false,
-      message: "Some error occure"
-    })
+    res.status(400).json({
+      success: false,
+      message: "Some error occure",
+    });
+
   }
-}
+};
