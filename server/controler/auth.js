@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User.js");
 const mongoose = require("mongoose");
-var jwt = require('jsonwebtoken');
+var jwt = require("jsonwebtoken");
 
 //signUp route
 exports.signup = async (req, res) => {
@@ -71,6 +71,7 @@ exports.login = async (req, res) => {
     if (await bcrypt.compare(password, user.password)) {
       let payload = {
         name: user.name,
+        role: user.role,
         email: user.email,
         id: user._id,
       };
@@ -82,13 +83,16 @@ exports.login = async (req, res) => {
       user.password = undefined;
       let option = {
         httpOnly: true,
+        secure: true, // in production
+        sameSite: "strict",
+        expires: new Date(Date.now() + 2 * 60 * 60 * 1000),
       };
 
       res.cookie("token", token, option).status(200).json({
         success: true,
-        message: "JWT send in cookie",
+        message: "JWT send in cookie ",
         user,
-        token
+        token,
       });
     } else {
       return res.status(400).json({
@@ -97,12 +101,10 @@ exports.login = async (req, res) => {
       });
     }
   } catch (error) {
-
     console.log(error.message);
     res.status(400).json({
       success: false,
       message: "Some error occure",
     });
-
   }
 };
