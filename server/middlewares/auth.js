@@ -1,33 +1,47 @@
 var jwt = require("jsonwebtoken");
 
 exports.auth = (req, res, next) => {
+
   try {
+
     let token = req.cookies.token;
 
     if (!token) {
-      return res.status(400).json({
-        success: false,
-        message: "token Missing",
-      });
+
+      return res.status(400).redirect("/api/v1/signup")
+
     }
 
     try {
-      let payload = jwt.verify(token, "ThisSecreat");
+
+      let payload = jwt.verify(
+        token,
+        "ThisSecreat"
+      );
+
       req.user = payload;
+
       next();
+
     } catch (err) {
+
       console.log("error in verify payload");
-      return res.status(401).json({
-        success: false,
-        message: "Token expired please login again :(",
-      });
+
+      return res.status(401).send(
+        "Invalid Token please login again"
+      );
+
     }
+
   } catch (error) {
+
     console.log(error.name);
-    return res.status(400).json({
+
+    return res.status(500).json({
       success: false,
-      message: "Error occure",
+      message: "Error occurred",
     });
+
   }
 };
 

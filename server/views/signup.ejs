@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --card: #16161f;
+      --border: rgba(255,255,255,0.07);
+      --accent: #c8f560;
+      --accent-dim: rgba(200, 245, 96, 0.12);
+      --accent-glow: rgba(200, 245, 96, 0.35);
+      --text-primary: #f0f0f5;
+      --text-secondary: #7a7a94;
+      --text-muted: #44445a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(200,245,96,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%; right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(100,120,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      animation: drift 15s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.05); }
+    }
+
+    /* Card */
+    .signup-card {
+      position: relative;
+      z-index: 1;
+      width: 420px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 44px 44px 36px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 32px 80px rgba(0,0,0,0.6),
+        0 0 60px rgba(200,245,96,0.04);
+      animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Logo mark */
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, #6ef0a0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 0 0 3px var(--card), 0 0 0 5px rgba(200,245,96,0.2);
+      animation: slideUp 0.7s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      animation: slideUp 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      animation: slideUp 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* Two-column grid for name + role */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Form fields */
+    .field {
+      margin-bottom: 14px;
+      animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .field:nth-child(1) { animation-delay: 0.20s; }
+    .field:nth-child(2) { animation-delay: 0.26s; }
+    .field-grid .field:nth-child(1) { animation-delay: 0.32s; }
+    .field-grid .field:nth-child(2) { animation-delay: 0.38s; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder { color: var(--text-muted); }
+
+    input:focus {
+      border-color: rgba(200,245,96,0.4);
+      background: rgba(200,245,96,0.04);
+      box-shadow: 0 0 0 3px rgba(200,245,96,0.08);
+    }
+
+    /* Role hint */
+    .field-hint {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 5px;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      background: var(--accent);
+      color: #0a0a0f;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(200,245,96,0.25);
+      animation: slideUp 0.7s 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(200,245,96,0.35);
+    }
+
+    .btn-submit:active { transform: translateY(0); }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      animation: slideUp 0.7s 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Login link */
+    .login-link {
+      display: block;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      animation: slideUp 0.7s 0.54s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .login-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      margin-left: 4px;
+      transition: opacity 0.2s;
+    }
+
+    .login-link a:hover {
+      opacity: 0.75;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-card">
+
+    <div class="logo-mark">⚡</div>
+
+    <h2>Create Account</h2>
+    <p class="subtitle">Fill in the details below to get started</p>
+
+    <form action="/api/v1/signup" method="post">
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Username" required>
+        </div>
+
+        <div class="field">
+          <label for="role">Role</label>
+          <input type="text" id="role" name="role" placeholder="Admin / Student" required>
+          <p class="field-hint">e.g. Admin, Student</p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Create Account</button>
+
+    </form>
+
+    <div class="divider"><span>or</span></div>
+
+    <p class="login-link">
+      Already have an account?
+      <a href="/api/v1/login">Log in</a>
+    </p>
+
+  </div>
+
+</body>
+</html>
