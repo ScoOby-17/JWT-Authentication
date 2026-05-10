@@ -1,328 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Profile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --card: #16161f;
-      --border: rgba(255,255,255,0.07);
-      --accent: #c8f560;
-      --accent-dim: rgba(200, 245, 96, 0.12);
-      --accent-glow: rgba(200, 245, 96, 0.35);
-      --text-primary: #f0f0f5;
-      --text-secondary: #7a7a94;
-      --text-muted: #44445a;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-primary);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Ambient background blobs */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -20%;
-      left: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(200,245,96,0.06) 0%, transparent 70%);
-      pointer-events: none;
-      animation: drift 12s ease-in-out infinite alternate;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -20%;
-      right: -10%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(100,120,255,0.07) 0%, transparent 70%);
-      pointer-events: none;
-      animation: drift 15s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, 20px) scale(1.05); }
-    }
-
-    /* Card */
-    .profile-card {
-      position: relative;
-      z-index: 1;
-      width: 420px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px 44px 40px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.04),
-        0 32px 80px rgba(0,0,0,0.6),
-        0 0 60px rgba(200,245,96,0.04);
-      animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(32px) scale(0.97);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --card: #16161f;
+        --border: rgba(255, 255, 255, 0.07);
+        --accent: #c8f560;
+        --accent-dim: rgba(200, 245, 96, 0.12);
+        --accent-glow: rgba(200, 245, 96, 0.35);
+        --text-primary: #f0f0f5;
+        --text-secondary: #7a7a94;
+        --text-muted: #44445a;
       }
-    }
 
-    /* Status pill */
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(200,245,96,0.2);
-      border-radius: 100px;
-      padding: 4px 12px 4px 8px;
-      font-size: 11px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      animation: slideUp 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+      body {
+        background-color: var(--bg);
+        color: var(--text-primary);
+        font-family: "DM Sans", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
 
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-glow);
-      animation: pulse 2s ease-in-out infinite;
-    }
+      /* Ambient background blobs */
+      body::before {
+        content: "";
+        position: fixed;
+        top: -20%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(200, 245, 96, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        animation: drift 12s ease-in-out infinite alternate;
+      }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.8); }
-    }
+      body::after {
+        content: "";
+        position: fixed;
+        bottom: -20%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(100, 120, 255, 0.07) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        animation: drift 15s ease-in-out infinite alternate-reverse;
+      }
 
-    /* Avatar */
-    .avatar-wrap {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent) 0%, #6ef0a0 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Syne', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      color: #0a0a0f;
-      margin-bottom: 20px;
-      box-shadow: 0 0 0 3px var(--card), 0 0 0 5px rgba(200,245,96,0.25);
-      animation: slideUp 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+      @keyframes drift {
+        from {
+          transform: translate(0, 0) scale(1);
+        }
+        to {
+          transform: translate(30px, 20px) scale(1.05);
+        }
+      }
 
-    /* Username */
-    h1.username {
-      font-family: 'Syne', sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-      animation: slideUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+      /* Card */
+      .profile-card {
+        position: relative;
+        z-index: 1;
+        width: 420px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 48px 44px 40px;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          0 32px 80px rgba(0, 0, 0, 0.6),
+          0 0 60px rgba(200, 245, 96, 0.04);
+        animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    h1.username span {
-      color: var(--accent);
-    }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(32px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
 
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 28px 0;
-      animation: slideUp 0.7s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+      /* Status pill */
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-dim);
+        border: 1px solid rgba(200, 245, 96, 0.2);
+        border-radius: 100px;
+        padding: 4px 12px 4px 8px;
+        font-size: 11px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 28px;
+        animation: slideUp 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    /* Info rows */
-    .info-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-      margin-bottom: 10px;
-      animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-      transition: background 0.2s, border-color 0.2s;
-    }
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--accent-glow);
+        animation: pulse 2s ease-in-out infinite;
+      }
 
-    .info-row:nth-child(1) { animation-delay: 0.3s; }
-    .info-row:nth-child(2) { animation-delay: 0.38s; }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.8);
+        }
+      }
 
-    .info-row:hover {
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(200,245,96,0.15);
-    }
+      /* Avatar */
+      .avatar-wrap {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent) 0%, #6ef0a0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Syne", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #0a0a0f;
+        margin-bottom: 20px;
+        box-shadow:
+          0 0 0 3px var(--card),
+          0 0 0 5px rgba(200, 245, 96, 0.25);
+        animation: slideUp 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    .info-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--accent-dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 16px;
-    }
+      /* Username */
+      h1.username {
+        font-family: "Syne", sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+        animation: slideUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    .info-content {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
+      h1.username span {
+        color: var(--accent);
+      }
 
-    .info-label {
-      font-size: 10px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
+      /* Divider */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 28px 0;
+        animation: slideUp 0.7s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    .info-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
+      /* Info rows */
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        margin-bottom: 10px;
+        animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
 
-    /* Role badge */
-    .role-badge {
-      display: inline-block;
-      background: var(--accent-dim);
-      border: 1px solid rgba(200,245,96,0.2);
-      color: var(--accent);
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 6px;
-    }
+      .info-row:nth-child(1) {
+        animation-delay: 0.3s;
+      }
+      .info-row:nth-child(2) {
+        animation-delay: 0.38s;
+      }
 
-    /* Footer */
-    .card-footer {
-      margin-top: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: slideUp 0.7s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+      .info-row:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(200, 245, 96, 0.15);
+      }
 
-    .footer-text {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+      .info-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--accent-dim);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 16px;
+      }
 
-    .logout-btn {
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 7px 14px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-    }
+      .info-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
 
-    .logout-btn:hover {
-      color: var(--text-primary);
-      border-color: rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.04);
-    }
-  </style>
-</head>
-<body>
+      .info-label {
+        font-size: 10px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
 
-  <div class="profile-card">
+      .info-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
 
-    <div class="status-pill">
-      <span class="status-dot"></span>
-      Logged in
-    </div>
+      /* Role badge */
+      .role-badge {
+        display: inline-block;
+        background: var(--accent-dim);
+        border: 1px solid rgba(200, 245, 96, 0.2);
+        color: var(--accent);
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
 
-    <div class="avatar-wrap">
-      <!-- First letter of name, generated via JS below -->
-      <span id="avatar-letter">U</span>
-    </div>
+      /* Footer */
+      .card-footer {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideUp 0.7s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
 
-    <h1 class="username" id="display-name">Username : <span><%= data.name %></span></h1>
+      .footer-text {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
 
-    <div class="divider"></div>
+      .logout-btn {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 14px;
+        cursor: pointer;
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          background 0.2s;
+      }
 
-    <div class="info-row">
-      <div class="info-icon">✉️</div>
-      <div class="info-content">
-        <span class="info-label">Email</span>
-        <span class="info-value"><%= data.email %></span>
+      .logout-btn:hover {
+        color: var(--text-primary);
+        border-color: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.04);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-card">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        Logged in
+      </div>
+
+      <div class="avatar-wrap">
+        <!-- First letter of name, generated via JS below -->
+        <span id="avatar-letter">U</span>
+      </div>
+
+      <h1 class="username" id="display-name">
+        Username : <span><%= data.name %></span>
+      </h1>
+
+      <div class="divider"></div>
+
+      <div class="info-row">
+        <div class="info-icon">✉️</div>
+        <div class="info-content">
+          <span class="info-label">Email</span>
+          <span class="info-value"><%= data.email %></span>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">🛡️</div>
+        <div class="info-content">
+          <span class="info-label">Role</span>
+          <span class="role-badge"><%= data.role %></span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <span class="footer-text">Session active</span>
+        <form action="/api/v1/logout" method="post" style="margin: 0">
+          <button type="submit" class="logout-btn">Log out</button>
+        </form>
       </div>
     </div>
 
-    <div class="info-row">
-      <div class="info-icon">🛡️</div>
-      <div class="info-content">
-        <span class="info-label">Role</span>
-        <span class="role-badge"><%= data.role %></span>
-      </div>
-    </div>
-
-    <div class="card-footer">
-      <span class="footer-text">Session active</span>
-      
-    </div>
-
-  </div>
-
-  <script>
-    // Grab first letter of name for avatar (works once EJS renders it)
-    const nameEl = document.querySelector('h1.username span');
-    if (nameEl) {
-      const letter = nameEl.textContent.trim()[0] || 'U';
-      document.getElementById('avatar-letter').textContent = letter.toUpperCase();
-    }
-  </script>
-
-</body>
+    <script>
+      // Grab first letter of name for avatar (works once EJS renders it)
+      const nameEl = document.querySelector("h1.username span");
+      if (nameEl) {
+        const letter = nameEl.textContent.trim()[0] || "U";
+        document.getElementById("avatar-letter").textContent =
+          letter.toUpperCase();
+      }
+    </script>
+  </body>
 </html>

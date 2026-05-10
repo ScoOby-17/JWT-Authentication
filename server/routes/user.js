@@ -24,6 +24,10 @@ router.get("/login",(req,res)=>{
 // router.post("/login",login)
 router.post("/signup" , signup)
 router.post("/login",login)
+router.post("/logout",(req,res)=>{
+    res.clearCookie('token')
+    res.redirect('/api/v1/login')
+})
 
 //protrcted routes
 router.get("/student" , auth  , isStudent , (req,res)=>{

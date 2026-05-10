@@ -22,5 +22,5 @@ const user = require("./routes/user.js")
 app.use("/api/v1",user);
 
 app.listen(port,()=>{
-    console.log("Server Running http://localhost:4000/api/v1/Home")
+    console.log("Server Running http://localhost:4000/api/v1/signup")
 })
